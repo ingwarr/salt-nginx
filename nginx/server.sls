@@ -1,10 +1,6 @@
 {%- from "nginx/map.jinja" import server with context %}
 {%- if server.enabled %}
 
-include:
-  - nginx.server.users
-  - nginx.server.sites
-
 nginx_packages:
   pkg.installed:
   - names: {{ server.pkgs }}
@@ -25,6 +21,23 @@ nginx_extra_packages:
   - require:
     - pkg: nginx_packages
 
+
+{%- if server.undercloud | default(false) %}
+
+/etc/nginx/nginx.conf:
+  file.managed:
+  - source: salt://nginx/files/nginx.conf.j2
+  - template: jinja
+  - require:
+    - pkg: nginx_packages
+  - watch_in:
+    - service: nginx_service
+
+{%- else %}
+include:
+  - nginx.server.users
+  - nginx.server.sites
+
 /etc/nginx/nginx.conf:
   file.managed:
   - source: salt://nginx/files/nginx.conf
@@ -33,6 +46,7 @@ nginx_extra_packages:
     - pkg: nginx_packages
   - watch_in:
     - service: nginx_service
+{%- endif %}
 
 nginx_service:
   service.running:

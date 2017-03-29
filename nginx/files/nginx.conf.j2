@@ -1,3 +1,4 @@
+{%- from "nginx/map.jinja" import server with context -%} 
 user {{ server.system_user }};
 worker_processes 2;
 pid /run/nginx.pid;

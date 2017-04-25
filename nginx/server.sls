@@ -35,8 +35,8 @@ nginx_extra_packages:
 
 httpboot_folder:
   cmd.run
-  - name mkdir -p /httpboot
-  - unless test -d /httpboot
+  - name mkdir -p {{ http_boot_folder }}
+  - unless test -d {{ http_boot_folder }}
   - require
     - pkg: nginx_packages
     

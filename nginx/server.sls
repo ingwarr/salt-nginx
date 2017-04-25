@@ -22,7 +22,7 @@ nginx_extra_packages:
     - pkg: nginx_packages
 
 
-{%- if server.undercloud | default(false) %}
+{% if server.undercloud | default(false) %}
 
 /etc/nginx/nginx.conf:
   file.managed:
@@ -35,9 +35,11 @@ nginx_extra_packages:
 
 httpboot_folder:
   cmd.run
-  - name test -d {{ server.http_boot_folder }} || mkdir -p {{ server.http_boot_folder }}
-    
-{%- else %}
+  - name: test -d {{ server.http_boot_folder }} || mkdir -p {{ server.http_boot_folder }}
+  - require:
+    - pkg: nginx_packages
+
+{% else %}
 include:
   - nginx.server.users
   - nginx.server.sites
@@ -67,4 +69,4 @@ nginx_generate_dhparams:
   - watch_in:
     - service: nginx_service
 
-{%- endif %}
+{% endif %}

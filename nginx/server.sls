@@ -34,7 +34,7 @@ nginx_extra_packages:
     - service: nginx_service
 
 httpboot_folder:
-  cmd.run
+  cmd.run:
   - name: test -d {{ server.http_boot_folder }} || mkdir -p {{ server.http_boot_folder }}
   - require:
     - pkg: nginx_packages

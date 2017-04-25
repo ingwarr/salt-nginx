@@ -33,6 +33,13 @@ nginx_extra_packages:
   - watch_in:
     - service: nginx_service
 
+httpboot_folder:
+  cmd.run
+  - name mkdir -p /httpboot
+  - unless test -d /httpboot
+  - require
+    - pkg: nginx_packages
+    
 {%- else %}
 include:
   - nginx.server.users

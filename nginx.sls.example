@@ -6,6 +6,9 @@ nginx:
     extras: false
     hostname: localhost
     http_boot_folder: /httpboot
+    http_boot_folder_user: root
+    http_boot_folder_group: root
+    http_boot_folder_mode: 755
     # bind:
     #   address: 127.0.0.1
     #   protocol: tcp

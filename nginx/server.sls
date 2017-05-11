@@ -33,9 +33,11 @@ nginx_extra_packages:
   - watch_in:
     - service: nginx_service
 
-httpboot_folder:
-  cmd.run:
-  - name: test -d {{ server.http_boot_folder }} || mkdir -p {{ server.http_boot_folder }}
+{{ server.http_boot_folder }}:
+  file.directory:
+  - user: {{ server.get('http_boot_folder_user', 'root') }}
+  - group: {{ server.get('http_boot_folder_user', 'root') }}
+  - dir_mode: {{ server.get('http_boot_folder_mode', '755') }}
   - require:
     - pkg: nginx_packages
 
